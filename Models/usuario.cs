@@ -1,6 +1,4 @@
-﻿using System.Dynamic;
-
-namespace novoprojeto;
+﻿namespace novoprojeto;
 
 public class Usuario
 {
