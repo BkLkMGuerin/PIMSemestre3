@@ -1,0 +1,14 @@
+/home/miguelg/novoprojeto/bin/Debug/net8.0/novoprojeto
+/home/miguelg/novoprojeto/bin/Debug/net8.0/novoprojeto.deps.json
+/home/miguelg/novoprojeto/bin/Debug/net8.0/novoprojeto.runtimeconfig.json
+/home/miguelg/novoprojeto/bin/Debug/net8.0/novoprojeto.dll
+/home/miguelg/novoprojeto/bin/Debug/net8.0/novoprojeto.pdb
+/home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.GeneratedMSBuildEditorConfig.editorconfig
+/home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.AssemblyInfoInputs.cache
+/home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.AssemblyInfo.cs
+/home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.csproj.CoreCompileInputs.cache
+/home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.dll
+/home/miguelg/novoprojeto/obj/Debug/net8.0/refint/novoprojeto.dll
+/home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.pdb
+/home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.genruntimeconfig.cache
+/home/miguelg/novoprojeto/obj/Debug/net8.0/ref/novoprojeto.dll
