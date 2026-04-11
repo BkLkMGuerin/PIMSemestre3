@@ -2,9 +2,9 @@
 
 namespace novoprojeto;
 
-public class usuario
+public class Usuario
 {
-    public usuario(string name, string telefone)
+    public Usuario(string name, string telefone)
     {
         Name = name;
         Telefone = telefone;
