@@ -12,3 +12,11 @@
 /home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.pdb
 /home/miguelg/novoprojeto/obj/Debug/net8.0/novoprojeto.genruntimeconfig.cache
 /home/miguelg/novoprojeto/obj/Debug/net8.0/ref/novoprojeto.dll
+C:\DeveloperMig\ProjetoADSPIM3S\PIMSemestre3\obj\Debug\net8.0\novoprojeto.GeneratedMSBuildEditorConfig.editorconfig
+C:\DeveloperMig\ProjetoADSPIM3S\PIMSemestre3\obj\Debug\net8.0\novoprojeto.AssemblyInfoInputs.cache
+C:\DeveloperMig\ProjetoADSPIM3S\PIMSemestre3\obj\Debug\net8.0\novoprojeto.AssemblyInfo.cs
+C:\DeveloperMig\ProjetoADSPIM3S\PIMSemestre3\obj\Debug\net8.0\novoprojeto.csproj.CoreCompileInputs.cache
+C:\DeveloperMig\ProjetoADSPIM3S\PIMSemestre3\obj\Debug\net8.0\novoprojeto.sourcelink.json
+C:\DeveloperMig\ProjetoADSPIM3S\PIMSemestre3\obj\Debug\net8.0\novoprojeto.dll
+C:\DeveloperMig\ProjetoADSPIM3S\PIMSemestre3\obj\Debug\net8.0\refint\novoprojeto.dll
+C:\DeveloperMig\ProjetoADSPIM3S\PIMSemestre3\obj\Debug\net8.0\novoprojeto.pdb

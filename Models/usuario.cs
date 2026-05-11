@@ -27,13 +27,14 @@ public class Usuario
     }
     public string Telefone
     {
-        get =>_telefone;
+        get => _telefone;
         set
         {
             if (value == "")
             {
                 throw new ArgumentException("Telefone não deve ser vazio");
             }
+            _telefone = value;
         }
     }
     public string Email
@@ -45,6 +46,7 @@ public class Usuario
             {
                 throw new ArgumentException("Email não deve ser vazio");
             }
+            _email = value;
         }
     }
 }
