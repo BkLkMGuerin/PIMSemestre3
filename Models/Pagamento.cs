@@ -13,9 +13,9 @@ public class Pagamento
 
   public bool EstaLogado()
   {
-    return !string.IsNullOrWhiteSpace(Login.Senha)
-        && !string.IsNullOrWhiteSpace(Usuario.Email)
-        && string.Equals(Usuario.Email, Login.Email, System.StringComparison.OrdinalIgnoreCase);
+    return Login != null
+      && !string.IsNullOrWhiteSpace(Usuario.Email)
+      && string.Equals(Usuario.Email, Login.Email, System.StringComparison.OrdinalIgnoreCase);
   }
 
   public string Efetuar(decimal valor)

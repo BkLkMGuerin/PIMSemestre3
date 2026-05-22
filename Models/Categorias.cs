@@ -1,4 +1,5 @@
 namespace novoprojeto;
+
 public class Categorias
 {
     public string Nome { get; set; }

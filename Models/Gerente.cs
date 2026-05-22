@@ -1,7 +1,14 @@
+using System.Linq;
+using System.Collections.Generic;
+using System;
+using System.IO;
+using System.Data.Common;
 namespace novoprojeto;
 
 public class Gerente : Usuario
 {
+  public string pathfile = "alugueis.txt";
+  public string novaQuadra = Environment.NewLine;
   private List<Quadra> _quadrasAlugadas = new List<Quadra>();
   private List<Quadra> _todasAsQuadras = new List<Quadra>();
 
@@ -21,7 +28,7 @@ public class Gerente : Usuario
     if (quadra == null)
       throw new ArgumentNullException(nameof(quadra), "Quadra não pode ser nula");
 
-    _todasAsQuadras.Add(quadra);
+    File.AppendAllText(pathfile, novaQuadra + $"Id: {quadra.Id} | Nome: {quadra.Nome} | Valor: R$ {quadra.Valor:F2}");
   }
 
   /// <summary>
@@ -39,9 +46,6 @@ public class Gerente : Usuario
     quadra.Disponivel = false;
   }
 
-  /// <summary>
-  /// Libera uma quadra após o aluguel
-  /// </summary>
   public void LiberarAluguel(Quadra quadra)
   {
     if (quadra == null)
@@ -53,9 +57,6 @@ public class Gerente : Usuario
     }
   }
 
-  /// <summary>
-  /// Obtém todas as quadras alugadas em uma data específica
-  /// </summary>
   public List<Quadra> ObterAluguelsPorData(DateTime data)
   {
     return _quadrasAlugadas
@@ -63,19 +64,12 @@ public class Gerente : Usuario
         .ToList();
   }
 
-  /// <summary>
-  /// Obtém todas as quadras alugadas por um usuário específico
-  /// </summary>
   public List<Quadra> ObterAluguelsPorUsuario(Usuario usuario)
   {
     return _quadrasAlugadas
         .Where(q => q.UsuarioAluguel.Email == usuario.Email)
         .ToList();
   }
-
-  /// <summary>
-  /// Obtém todas as quadras alugadas em um horário específico
-  /// </summary>
   public List<Quadra> ObterAluguelsPorHorario(TimeSpan horaInicio, TimeSpan horaFim)
   {
     return _quadrasAlugadas
@@ -83,17 +77,14 @@ public class Gerente : Usuario
         .ToList();
   }
 
-  /// <summary>
-  /// Gera um relatório de todas as quadras alugadas
-  /// </summary>
   public string GerarRelatórioAluguel()
   {
     if (_quadrasAlugadas.Count == 0)
       return "Nenhuma quadra alugada no momento.";
 
     var relatorio = new System.Text.StringBuilder();
-    relatorio.AppendLine("===== RELATÓRIO DE ALUGUEL DE QUADRAS =====");
-    relatorio.AppendLine($"Total de quadras alugadas: {_quadrasAlugadas.Count}");
+    relatorio.AppendLine("=x=x= RELATÓRIO DE ALUGUEL DE QUADRAS =x=x=");
+    relatorio.AppendLine($"Número de quadras alugadas: {_quadrasAlugadas.Count}");
     relatorio.AppendLine(new string('-', 50));
 
     decimal totalArrecadado = 0;
@@ -109,9 +100,89 @@ public class Gerente : Usuario
     return relatorio.ToString();
   }
 
-  /// <summary>
-  /// Verifica se uma quadra está disponível em um horário específico
-  /// </summary>
+  public override void MostrarMenu(List<Usuario> usuarios, List<Quadra> quadras, List<Gerente> gerentes)
+  {
+    while (true)
+    {
+      try
+      {
+        Console.WriteLine("\n--- Menu Gerente ---");
+        Console.WriteLine("1 - Adicionar quadra");
+        Console.WriteLine("2 - Listar todas as quadras");
+        Console.WriteLine("3 - Liberar aluguel (por Id)");
+        Console.WriteLine("4 - Ver relatório");
+        Console.WriteLine("0 - Sair (logout)");
+        Console.Write("Escolha: ");
+        var op = Console.ReadLine();
+        if (op == "0") break;
+
+        if (op == "1")
+        {
+          try
+          {
+
+            Console.Write("Nome: ");
+            var nome = Console.ReadLine() ?? string.Empty;
+            Console.Write("Valor (ex: 120.50): ");
+            if (!decimal.TryParse(Console.ReadLine(), out var valor)) { Console.WriteLine("Valor inválido."); continue; }
+
+            var placeholderUser = new Usuario("SEM_USUARIO", "00000000000", "sem@null");
+            var totalLinhas = File.ReadLines(pathfile).Count(linha => !string.IsNullOrWhiteSpace(linha));
+            var id = totalLinhas + 1;
+            var nova = new Quadra(id, nome, placeholderUser, DateTime.Now, TimeSpan.Zero, TimeSpan.Zero, valor);
+            AdicionarQuadra(nova);
+            quadras.Add(nova);
+            Console.WriteLine("Quadra adicionada.");
+          }
+          catch (Exception ex)
+          {
+            Console.WriteLine($"Falha ao adicionar quadra: {ex.Message}");
+          }
+        }
+        else if (op == "2")
+        {
+          foreach (var q in quadras)
+            Console.WriteLine($"Id: {q.Id} | Nome: {q.Nome} | Disponível: {q.Disponivel} | Valor: R$ {q.Valor:F2}");
+          Console.WriteLine(quadras.Count == 0 ? "Nenhuma quadra cadastrada." : $"Total de quadras: {quadras.Count}");
+        }
+
+        else if (op == "3")
+        {
+          try
+          {
+            Console.Write("Id da quadra para liberar: ");
+            if (!int.TryParse(Console.ReadLine(), out var id)) { Console.WriteLine("Id inválido."); continue; }
+            var quadra = quadras.FirstOrDefault(q => q.Id == id);
+            if (quadra == null)
+            {
+              Console.WriteLine("Quadra não encontrada.");
+              continue;
+            }
+            LiberarAluguel(quadra);
+            quadra.Disponivel = true;
+            Console.WriteLine("Aluguel liberado (se estava alugado).");
+          }
+          catch (Exception ex)
+          {
+            Console.WriteLine($"Falha ao liberar aluguel: {ex.Message}");
+          }
+        }
+        else if (op == "4")
+        {
+          Console.WriteLine(GerarRelatórioAluguel());
+        }
+        else
+        {
+          Console.WriteLine("Opção inválida.");
+        }
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine($"Erro no menu do gerente: {ex.Message}");
+      }
+    }
+  }
+
   public bool VerificarDisponibilidade(string nomeQuadra, DateTime data, TimeSpan horaInicio, TimeSpan horaFim)
   {
     var quadraEmUso = _quadrasAlugadas.FirstOrDefault(q =>
