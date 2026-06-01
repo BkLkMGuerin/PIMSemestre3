@@ -1,100 +1,107 @@
-using System;
-using System.IO; // Adicionado para reconhecer a classe File
+namespace AluguelQuadrasSUN7;
 
-namespace novoprojeto;
+public enum TipoQuadra
+{
+    Volei,
+    BeachTennis
+}
 
 public class Quadra
 {
-  public int Id { get; set; }
-  public string Nome { get; set; }
-  public Usuario UsuarioAluguel { get; set; }
-  public DateTime DataAluguel { get; set; }
-  public TimeSpan HoraInicio { get; set; }
-  public TimeSpan HoraFim { get; set; }
-  public decimal Valor { get; set; }
-  public bool Disponivel { get; set; }
-  private List<Quadra> _quadrasAlugadas = new List<Quadra>();
-  private List<Quadra> _todasAsQuadras = new List<Quadra>();
-  public IReadOnlyList<Quadra> QuadrasAlugadas => _quadrasAlugadas.AsReadOnly();
-  public IReadOnlyList<Quadra> TodasAsQuadras => _todasAsQuadras.AsReadOnly();
+    public int Id { get; set; }
+    public string Nome { get; set; } = string.Empty;
+    public TipoQuadra Tipo { get; set; }
+    public bool Disponivel { get; set; }
+    private string pathFile = "quadras.txt";
 
-  public Quadra(int id, string nome, Usuario usuarioAluguel,
-                DateTime dataAluguel, TimeSpan horaInicio, TimeSpan horaFim, decimal valor)
-  {
-    Id = id;
-    Nome = nome;
-    UsuarioAluguel = usuarioAluguel;
-    DataAluguel = dataAluguel;
-    HoraInicio = horaInicio;
-    HoraFim = horaFim;
-    Valor = valor;
-    Disponivel = true;
-  }
-
-  public Quadra(int id, string nome, decimal valor)
-  {
-    Id = id;
-    Nome = nome;
-    Valor = valor;
-    Disponivel = true;
-
-  }
-  public void RegistrarAluguel(Quadra quadra)
-  {
-    if (quadra == null)
-      throw new ArgumentNullException(nameof(quadra), "Quadra não pode ser nula");
-
-    if (!_todasAsQuadras.Contains(quadra))
-      throw new InvalidOperationException("Quadra não está cadastrada no sistema");
-
-    _quadrasAlugadas.Add(quadra);
-    quadra.Disponivel = false;
-  }
-  public string ObterDetalhes()
-  {
-    string nomeUsuario = UsuarioAluguel != null ? UsuarioAluguel.Name : "Ninguém";
-
-    return $"Quadra: {Nome} | " +
-           $"Data: {DataAluguel:dd/MM/yyyy} | Horário: {HoraInicio:hh\\:mm} às {HoraFim:hh\\:mm} | " +
-           $"Usuário: {nomeUsuario} | Valor: R$ {Valor:F2}";
-  }
-
-  public Quadra ProcurarQuadraPorIdNoTxt(int idProcurado)
-  {
-    if (!File.Exists("alugueis.txt"))
+            public void CadastrarQuadra()
     {
-      Console.WriteLine("Arquivo de dados não encontrado.");
-      return null;
-    }
-    string termoBusca = $"Id: {idProcurado} ";
 
-    foreach (string linha in File.ReadLines("alugueis.txt"))
-    {
-      if (string.IsNullOrWhiteSpace(linha)) continue;
+            try
+            {
+                if (File.Exists(pathFile))
+                {
+                    string[] linhas = File.ReadAllLines(pathFile);
+                    this.Id = linhas.Length + 1;
+                }
+                else
+                {
+                    this.Id = 1;
+                }
+                this.Disponivel = true;
 
-      if (linha.StartsWith(termoBusca))
-      {
-        try
-        {
-          string[] partes = linha.Split('|');
+                string dadosQuadra = $"{Id}|{Nome}|{Tipo}|{Disponivel}|{DateTime.Now}{Environment.NewLine}";
 
-          int id = int.Parse(partes[0].Replace("Id:", "").Trim());
-          string nome = partes[1].Replace("Nome:", "").Trim();
+            
+                File.AppendAllText(pathFile, dadosQuadra);
 
-          decimal valor = decimal.Parse(partes[2].Replace("Valor: R$", "").Trim());
-
-          Quadra quadraEncontrada = new Quadra(id, nome, valor);
-          System.Console.WriteLine("PASSOU POR AQUI");
-          return quadraEncontrada;
-        }
-        catch (Exception)
-        {
-          Console.WriteLine("Erro ao processar a linha do arquivo.");
-          return null;
-        }
-      }
+                Console.WriteLine($"\nQuadra '{Nome}' cadastrada com sucesso! ID gerado: {Id}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao cadastrar a quadra no arquivo: {ex.Message}");
+            }
     }
 
-    return null;
-  }
-}
+public void AtualizarQuadra()
+        {
+            string caminhoArquivo = "quadras.txt";
+
+            // Validação básica para garantir que a quadra possua um ID válido antes de atualizar
+            if (this.Id <= 0)
+            {
+                Console.WriteLine("Erro: ID de quadra inválido para atualização.");
+                return;
+            }
+
+            if (!File.Exists(caminhoArquivo))
+            {
+                Console.WriteLine("Erro: Arquivo 'quadras.txt' não encontrado.");
+                return;
+            }
+
+            try
+            {
+                
+                string[] linhas = File.ReadAllLines(caminhoArquivo);
+                bool quadraEncontrada = false;
+
+                
+                for (int i = 0; i < linhas.Length; i++)
+                {
+                    if (string.IsNullOrWhiteSpace(linhas[i])) continue;
+
+                    string[] dados = linhas[i].Split('|');
+                    int idDoArquivo = int.Parse(dados[0]);
+
+                    if (idDoArquivo == this.Id)
+                    {
+                        
+                        linhas[i] = $"{Id}|{Nome}|{Tipo}|{Disponivel}|{DateTime.Now} (Atualizada)";
+                        quadraEncontrada = true;
+                        break; // Para o laço de repetição
+                    }
+                }
+
+
+                
+                if (quadraEncontrada)
+                {
+                    File.WriteAllLines(caminhoArquivo, linhas);
+                    Console.WriteLine($"\nQuadra ID {Id} atualizada com sucesso no arquivo!");
+                }
+                else
+                {
+                    Console.WriteLine("Erro: Quadra não encontrada no arquivo para atualização.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao atualizar a quadra: {ex.Message}");
+            }
+        }
+
+        
+    }
+    
+    

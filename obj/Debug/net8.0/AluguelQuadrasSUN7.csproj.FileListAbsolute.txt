@@ -1,0 +1,15 @@
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/AluguelQuadrasSUN7.GeneratedMSBuildEditorConfig.editorconfig
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/AluguelQuadrasSUN7.AssemblyInfoInputs.cache
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/AluguelQuadrasSUN7.AssemblyInfo.cs
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/AluguelQuadrasSUN7.csproj.CoreCompileInputs.cache
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/AluguelQuadrasSUN7.sourcelink.json
+/home/miguelg/AluguelSUN7/AlguelSUNS7/bin/Debug/net8.0/AluguelQuadrasSUN7
+/home/miguelg/AluguelSUN7/AlguelSUNS7/bin/Debug/net8.0/AluguelQuadrasSUN7.deps.json
+/home/miguelg/AluguelSUN7/AlguelSUNS7/bin/Debug/net8.0/AluguelQuadrasSUN7.runtimeconfig.json
+/home/miguelg/AluguelSUN7/AlguelSUNS7/bin/Debug/net8.0/AluguelQuadrasSUN7.dll
+/home/miguelg/AluguelSUN7/AlguelSUNS7/bin/Debug/net8.0/AluguelQuadrasSUN7.pdb
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/AluguelQuadrasSUN7.dll
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/refint/AluguelQuadrasSUN7.dll
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/AluguelQuadrasSUN7.pdb
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/AluguelQuadrasSUN7.genruntimeconfig.cache
+/home/miguelg/AluguelSUN7/AlguelSUNS7/obj/Debug/net8.0/ref/AluguelQuadrasSUN7.dll
