@@ -129,7 +129,7 @@ public class Agendamento
                         string dataFormatada = this.Data.ToString("dd/MM/yyyy");
 
             
-                        linhas[i] = $"{Id};{UsuarioId};{QuadraId};{PagamentoId};{HorarioInicio};{HorarioFim};{dataFormatada};{Status};{DateTime.Now} (Cancelado)";
+                        linhas[i] = $"{Id}|{UsuarioId}|{QuadraId}|{PagamentoId}|{HorarioInicio}|{HorarioFim}|{dataFormatada}|{Status}|{DateTime.Now} (Cancelado)";
                         agendamentoEncontrado = true;
                         break;
                     }

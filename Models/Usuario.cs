@@ -11,7 +11,6 @@ public class Usuario
 {
     public int Id { get; set; }
     public string Nome { get; set; } = string.Empty;
-    public string Sobrenome { get; set; } = string.Empty;
     public string Cpf { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Senha { get; set; } = string.Empty;
@@ -31,7 +30,7 @@ public class Usuario
             {
                 this.Id = 1;
             }
-            string dadosUsuario = $"{Id}|{Nome}|{Sobrenome}|{Cpf}|{Email}|{Senha}|{Tipo}|{DateTime.Now}\n";
+            string dadosUsuario = $"{Id}|{Nome}|{Cpf}|{Email}|{Senha}|{Tipo}|{DateTime.Now}\n";
             
             File.AppendAllText(pathFile, dadosUsuario);
             Console.WriteLine("Usuario cadastrado com sucesso!");
@@ -42,7 +41,7 @@ public class Usuario
         }
     }
 
-        public bool Login(string emailDigitado, string senhaDigitada)
+    public bool Login(string emailDigitado, string senhaDigitada)
     {
         if (!File.Exists(pathFile))
         {
@@ -57,18 +56,19 @@ public class Usuario
                 if (string.IsNullOrWhiteSpace(linha)) continue;
 
                 string[] dados = linha.Split("|");
-                string emailDoArquivo = dados[4];
-                string senhaDoArquivo = dados[5];
+                if (dados.Length < 6) continue;
+
+                string emailDoArquivo = dados[3];
+                string senhaDoArquivo = dados[4];
                 if (emailDoArquivo.Equals(emailDigitado, StringComparison.OrdinalIgnoreCase) && senhaDoArquivo == senhaDigitada)
                 {
 
                     this.Id = int.Parse(dados[0]);
                     this.Nome = dados[1];
-                    this.Sobrenome = dados[2];
-                    this.Cpf = dados[3];
+                    this.Cpf = dados[2];
                     this.Email = emailDoArquivo;
                     this.Senha = senhaDoArquivo;
-                    this.Tipo = (TipoUsuario)Enum.Parse(typeof(TipoUsuario), dados[6]);
+                    this.Tipo = (TipoUsuario)Enum.Parse(typeof(TipoUsuario), dados[5]);
 
                     Console.WriteLine($"\nLogin realizado com sucesso! Bem-vindo(a), {this.Nome}.");
                     return true;
@@ -117,7 +117,7 @@ public class Usuario
                     if (idDoArquivo == this.Id)
                     {
                         
-                        linhas[i] = $"{Id}|{Nome}|{Sobrenome}|{Cpf}|{Email}|{Senha}|{Tipo}|{DateTime.Now} (Editado)";
+                        linhas[i] = $"{Id}|{Nome}|{Cpf}|{Email}|{Senha}|{Tipo}|{DateTime.Now} (Editado)";
                         usuarioEncontrado = true;
                         break; 
                     }

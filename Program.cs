@@ -1,4 +1,7 @@
-﻿using System;
+//TODO: CRIAR UM GESTOR QUE POSSA VER RELATÓRIO(LISTA COMPLETA DAS QUADRAS RESERVADAS E FATURAMENTO) COM QUADRAS, PAGAMENTO, AGENDAMENTOS, EDITAR E CADASTRAR QUADRAS
+//TODO: FAZER UMA OPÇÃO PARA EDITAR PERFIL CLIENTE
+//TODO: AO FINAL DO REGISTRO DE QUADRA OFERECER METODO DE PAGAMENTO PIX
+using System;
 using System.Collections.Generic;
 using AluguelQuadrasSUN7;
 
@@ -21,13 +24,30 @@ namespace AluguelQuadrasSUN7
             Usuario u = new Usuario();
             
             // Pegando os dados básicos pra testar
-            Console.Write("Nome: "); u.Nome = Console.ReadLine();
-            Console.Write("Email: "); u.Email = Console.ReadLine();
-            Console.Write("Senha: "); u.Senha = Console.ReadLine();
+            u.Nome = ObterEntradaValida("Nome");
+            u.Cpf = ObterEntradaValida("CPF");
+            u.Email = ObterEntradaValida("Email");
+            u.Senha = ObterEntradaValida("Senha");
             u.Tipo = TipoUsuario.Cliente;
 
             u.Cadastrar();
             Console.ReadKey();
+        }
+
+        private string ObterEntradaValida(string nomeCampo)
+        {
+            string? entrada;
+            do
+            {
+                Console.Write($"{nomeCampo}: ");
+                entrada = Console.ReadLine()?.Trim();
+                if (string.IsNullOrWhiteSpace(entrada))
+                {
+                    Console.WriteLine($"{nomeCampo} não pode ser vazio. Tente novamente.");
+                }
+            } while (string.IsNullOrWhiteSpace(entrada));
+
+            return entrada;
         }
     }
 
@@ -39,9 +59,8 @@ namespace AluguelQuadrasSUN7
         {
             Console.Clear();
             Console.WriteLine("=== LOGIN ===");
-            Console.Write("Email: "); string email = Console.ReadLine();
-            Console.Write("Senha: "); string senha = Console.ReadLine();
-
+            Console.Write("Email: "); string email = Console.ReadLine() ?? string.Empty;
+            Console.Write("Senha: "); string senha = Console.ReadLine() ?? string.Empty;
             Usuario u = new Usuario();
             
             // Se o login der certo, a gente cria o menu de logado na hora!
