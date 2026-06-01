@@ -17,3 +17,6 @@ C:\DeveloperMig\PIMSemestre3\obj\Debug\net10.0\refint\AluguelQuadrasSUN7.dll
 C:\DeveloperMig\PIMSemestre3\obj\Debug\net10.0\AluguelQuadrasSUN7.pdb
 C:\DeveloperMig\PIMSemestre3\obj\Debug\net10.0\AluguelQuadrasSUN7.genruntimeconfig.cache
 C:\DeveloperMig\PIMSemestre3\obj\Debug\net10.0\ref\AluguelQuadrasSUN7.dll
+C:\DeveloperMig\PIMSemestre3\bin\Debug\net10.0\BCrypt-Net-Next.dll
+C:\DeveloperMig\PIMSemestre3\obj\Debug\net10.0\AluguelQuadrasSUN7.csproj.AssemblyReference.cache
+C:\DeveloperMig\PIMSemestre3\obj\Debug\net10.0\AluguelQ.B1837A44.Up2Date

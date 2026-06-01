@@ -42,48 +42,53 @@ public class Usuario
     }
 
     public bool Login(string emailDigitado, string senhaDigitada)
+{
+    if (!File.Exists(pathFile))
     {
-        if (!File.Exists(pathFile))
-        {
-            Console.WriteLine("Nenhum usuario cadastrado!");
-            return false;
-        }
-        try
-        {
-            string[] linhas = File.ReadAllLines(pathFile);
-            foreach (var linha in linhas)
-            {
-                if (string.IsNullOrWhiteSpace(linha)) continue;
-
-                string[] dados = linha.Split("|");
-                if (dados.Length < 6) continue;
-
-                string emailDoArquivo = dados[3];
-                string senhaDoArquivo = dados[4];
-                if (emailDoArquivo.Equals(emailDigitado, StringComparison.OrdinalIgnoreCase) && senhaDoArquivo == senhaDigitada)
-                {
-
-                    this.Id = int.Parse(dados[0]);
-                    this.Nome = dados[1];
-                    this.Cpf = dados[2];
-                    this.Email = emailDoArquivo;
-                    this.Senha = senhaDoArquivo;
-                    this.Tipo = (TipoUsuario)Enum.Parse(typeof(TipoUsuario), dados[5]);
-
-                    Console.WriteLine($"\nLogin realizado com sucesso! Bem-vindo(a), {this.Nome}.");
-                    return true;
-                }
-                
-            }   
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine("Erro ao fazer login: " + ex.Message);
-        }
-
-        Console.WriteLine("Email ou senha incorretos.");
+        Console.WriteLine("Nenhum usuário cadastrado!");
         return false;
     }
+
+    try
+    {
+        string[] linhas = File.ReadAllLines(pathFile);
+        foreach (var linha in linhas)
+        {
+            if (string.IsNullOrWhiteSpace(linha)) continue;
+
+            string[] dados = linha.Split("|");
+            if (dados.Length < 6) continue;
+
+            string emailDoArquivo = dados[3];
+            string senhaDoArquivo = dados[4]; // Este agora é o HASH do BCrypt
+
+            // 1. Compara o e-mail normalmente
+            // 2. Usa o método Security.VerificarSenha para validar a senha digitada contra o hash do arquivo
+            if (emailDoArquivo.Equals(emailDigitado, StringComparison.OrdinalIgnoreCase) && 
+                Security.VerificarSenha(senhaDigitada, senhaDoArquivo))
+            {
+                this.Id = int.Parse(dados[0]);
+                this.Nome = dados[1];
+                this.Cpf = dados[2];
+                this.Email = emailDoArquivo;
+                this.Senha = senhaDoArquivo; // Guarda o hash ou limpa por segurança
+                this.Tipo = (TipoUsuario)Enum.Parse(typeof(TipoUsuario), dados[5]);
+
+                Console.WriteLine($"\nLogin realizado com sucesso! Bem-vindo(a), {this.Nome}.");
+                return true;
+            }
+        }
+        
+        // Se percorreu todo o arquivo e não retornou true
+        Console.WriteLine("\nE-mail ou senha incorretos.");
+        return false;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Erro ao tentar realizar o login: {ex.Message}");
+        return false;
+    }
+}
 
           public void EditarPerfil()
     {

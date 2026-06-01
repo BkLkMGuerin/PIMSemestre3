@@ -19,18 +19,29 @@ namespace AluguelQuadrasSUN7
         {
             Console.Clear();
             Console.WriteLine("=== CADASTRO ===");
+            
             Usuario u = new Usuario();
             
-            // Pegando os dados básicos pra testar
+            // Capturando os dados básicos
             u.Nome = ObterEntradaValida("Nome");
             u.Cpf = ObterEntradaValida("CPF");
             u.Email = ObterEntradaValida("Email");
-            u.Senha = ObterEntradaValida("Senha");
+            
+            // 1. Primeiro captura a senha em texto limpo do console
+            string senhaEmTextoPuro = ObterEntradaValida("Senha");
+            
+            // 2. Criptografa a senha capturada e joga direto no objeto Usuario
+            u.Senha = Security.CriptografarSenha(senhaEmTextoPuro);
+            
             u.Tipo = TipoUsuario.Cliente;
-
+            
+            // Salva o usuário com a senha já protegida
             u.Cadastrar();
+            
+            Console.WriteLine("\nUsuário cadastrado com sucesso! Pressione qualquer tecla para continuar...");
             Console.ReadKey();
         }
+
 
         private string ObterEntradaValida(string nomeCampo)
         {
@@ -165,36 +176,80 @@ namespace AluguelQuadrasSUN7
                 return;
             }
 
-            Console.Write("Digite a data (DD/MM/AAAA) [Deixe vazio para amanhã]: ");
-            string dataStr = Console.ReadLine()?.Trim() ?? string.Empty;
+            // --- Validação da Data ---
             DateTime dataReserva;
-            if (string.IsNullOrEmpty(dataStr))
+            while (true)
             {
-                dataReserva = DateTime.Today.AddDays(1);
-            }
-            else
-            {
+                Console.Write("Digite a data (DD/MM/AAAA): ");
+                string dataStr = Console.ReadLine()?.Trim() ?? string.Empty;
+
+                if (string.IsNullOrEmpty(dataStr))
+                {
+                    Console.WriteLine("  A data não pode ser vazia. Tente novamente.");
+                    continue;
+                }
                 if (!DateTime.TryParseExact(dataStr, "dd/MM/yyyy", null, System.Globalization.DateTimeStyles.None, out dataReserva))
                 {
-                    Console.WriteLine("Formato de data inválido. Usando amanhã por padrão.");
-                    dataReserva = DateTime.Today.AddDays(1);
+                    Console.WriteLine("  Formato inválido. Use DD/MM/AAAA. Tente novamente.");
+                    continue;
                 }
+                if (dataReserva.Date < DateTime.Today)
+                {
+                    Console.WriteLine("  Não é possível agendar para uma data no passado. Tente novamente.");
+                    continue;
+                }
+                break;
             }
 
-            Console.Write("Horário de Início (HH:MM) [Padrão 14:00]: ");
-            string hrIniStr = Console.ReadLine()?.Trim() ?? string.Empty;
-            TimeSpan horarioInicio = new TimeSpan(14, 0, 0);
-            if (!string.IsNullOrEmpty(hrIniStr))
+            // --- Validação do Horário de Início ---
+            TimeSpan horarioInicio;
+            while (true)
             {
-                TimeSpan.TryParse(hrIniStr, out horarioInicio);
+                Console.Write("Horário de Início (HH:MM): ");
+                string hrIniStr = Console.ReadLine()?.Trim() ?? string.Empty;
+
+                if (string.IsNullOrEmpty(hrIniStr))
+                {
+                    Console.WriteLine("  O horário de início não pode ser vazio. Tente novamente.");
+                    continue;
+                }
+                if (!TimeSpan.TryParseExact(hrIniStr, @"hh\:mm", null, out horarioInicio))
+                {
+                    Console.WriteLine("  Formato inválido. Use HH:MM (ex: 14:00). Tente novamente.");
+                    continue;
+                }
+                // Verifica se o agendamento é hoje e o horário já passou
+                if (dataReserva.Date == DateTime.Today && horarioInicio <= DateTime.Now.TimeOfDay)
+                {
+                    Console.WriteLine("  Horário já passou para hoje. Escolha um horário futuro.");
+                    continue;
+                }
+                break;
             }
 
-            Console.Write("Horário de Fim (HH:MM) [Padrão 15:00]: ");
-            string hrFimStr = Console.ReadLine()?.Trim() ?? string.Empty;
-            TimeSpan horarioFim = new TimeSpan(15, 0, 0);
-            if (!string.IsNullOrEmpty(hrFimStr))
+            // --- Validação do Horário de Fim ---
+            TimeSpan horarioFim;
+            while (true)
             {
-                TimeSpan.TryParse(hrFimStr, out horarioFim);
+                Console.Write("Horário de Fim (HH:MM): ");
+                string hrFimStr = Console.ReadLine()?.Trim() ?? string.Empty;
+
+                if (string.IsNullOrEmpty(hrFimStr))
+                {
+                    Console.WriteLine("  O horário de fim não pode ser vazio. Tente novamente.");
+                    continue;
+                }
+                if (!TimeSpan.TryParseExact(hrFimStr, @"hh\:mm", null, out horarioFim))
+                {
+                    Console.WriteLine("  Formato inválido. Use HH:MM (ex: 15:00). Tente novamente.");
+                    continue;
+                }
+                if (horarioFim <= horarioInicio)
+                {
+                    Console.WriteLine("  O horário de fim deve ser maior que o de início. Tente novamente.");
+                    continue;
+                }
+                break;
             }
 
             // Calcula o valor do pagamento baseado nas horas de reserva (custo de R$ 90,00 por hora)

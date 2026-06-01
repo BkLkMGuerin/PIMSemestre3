@@ -33,7 +33,7 @@ public class Pagamento
                 this.Status = "Pendente";
                 this.TipoPagamento = TipoPagamento.Pix;
 
-                GerarQRCodePIX();
+                
 
                 string dadosPagamento = $"{Id}|{Valor}|{Status}|{TipoPagamento}|{TempoLimiteMinutos}|{DateTime.Now}{Environment.NewLine}";
                 File.AppendAllText(arquivoPagamentos, dadosPagamento);
