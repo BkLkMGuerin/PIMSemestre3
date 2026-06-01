@@ -117,7 +117,7 @@ public class Usuario
                     if (idDoArquivo == this.Id)
                     {
                         
-                        linhas[i] = $"{Id}|{Nome}|{Cpf}|{Email}|{Senha}|{Tipo}|{DateTime.Now} (Editado)";
+                        linhas[i] = $"{Id}|{Nome}|{Cpf}|{Email}|{Senha}|{Tipo}|{DateTime.Now}";
                         usuarioEncontrado = true;
                         break; 
                     }

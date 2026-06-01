@@ -77,7 +77,7 @@ public void AtualizarQuadra()
                     if (idDoArquivo == this.Id)
                     {
                         
-                        linhas[i] = $"{Id}|{Nome}|{Tipo}|{Disponivel}|{DateTime.Now} (Atualizada)";
+                        linhas[i] = $"{Id}|{Nome}|{Tipo}|{Disponivel}|{DateTime.Now}";
                         quadraEncontrada = true;
                         break; // Para o laço de repetição
                     }

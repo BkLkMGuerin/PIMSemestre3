@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AluguelQuadrasSUN7")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+612c5c3130a31f480430d30fa1ab1113e1ffdc21")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+27bf47e9826bdae5a57440d28e9cda0aaea1da15")]
 [assembly: System.Reflection.AssemblyProductAttribute("AluguelQuadrasSUN7")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AluguelQuadrasSUN7")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

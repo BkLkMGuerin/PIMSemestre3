@@ -108,6 +108,26 @@ public class Pagamento
 
     public void GerarQRCodePIX()
     {
-        //
+        Console.WriteLine("\n=== PIX COPIA E COLA ===");
+        Console.WriteLine($"00020101021226870014br.gov.bcb.pix2565pix.sun7.com.br/pagamento/id{Id}");
+        Console.WriteLine("Use o código acima no aplicativo do seu banco para realizar o pagamento.");
+
+        string path = "qrcodepagamento.png";
+        if (File.Exists(path))
+        {
+            try
+            {
+                Console.WriteLine("Abrindo o QR Code (qrcodepagamento.png)...");
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(path) { UseShellExecute = true });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Não foi possível abrir a imagem do QR Code automaticamente: {ex.Message}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Imagem 'qrcodepagamento.png' não encontrada no diretório do aplicativo.");
+        }
     }
 }
