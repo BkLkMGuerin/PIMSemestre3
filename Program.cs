@@ -5,8 +5,6 @@ using AluguelQuadrasSUN7;
 
 namespace AluguelQuadrasSUN7
 {
-    
-
     // ==========================================
     // 2. AS TELAS DO SISTEMA (Implementando a Interface)
     // ==========================================
@@ -19,25 +17,25 @@ namespace AluguelQuadrasSUN7
         {
             Console.Clear();
             Console.WriteLine("=== CADASTRO ===");
-            
+
             Usuario u = new Usuario();
-            
+
             // Capturando os dados básicos
             u.Nome = ObterEntradaValida("Nome");
             u.Cpf = ObterEntradaValida("CPF");
             u.Email = ObterEntradaValida("Email");
-            
+
             // 1. Primeiro captura a senha em texto limpo do console
             string senhaEmTextoPuro = ObterEntradaValida("Senha");
-            
+
             // 2. Criptografa a senha capturada e joga direto no objeto Usuario
             u.Senha = Security.CriptografarSenha(senhaEmTextoPuro);
-            
+
             u.Tipo = TipoUsuario.Cliente;
-            
+
             // Salva o usuário com a senha já protegida
             u.Cadastrar();
-            
+
             Console.WriteLine("\nUsuário cadastrado com sucesso! Pressione qualquer tecla para continuar...");
             Console.ReadKey();
         }
@@ -71,12 +69,12 @@ namespace AluguelQuadrasSUN7
             Console.Write("Email: "); string email = Console.ReadLine() ?? string.Empty;
             Console.Write("Senha: "); string senha = Console.ReadLine() ?? string.Empty;
             Usuario u = new Usuario();
-            
+
             // Se o login der certo, a gente cria o menu de logado na hora!
             if (u.Login(email, senha))
             {
                 Console.ReadKey(); // Pausa pra ler a msg de boas-vindas
-                
+
                 List<IOpcaoMenu> opcoesLogado;
                 string tituloPainel;
 
@@ -304,8 +302,8 @@ namespace AluguelQuadrasSUN7
             Console.Clear();
             Console.WriteLine("=== CANCELAMENTO ===");
             Console.Write("Digite o ID do agendamento que deseja cancelar: ");
-            
-            if(int.TryParse(Console.ReadLine(), out int idAgendamento))
+
+            if (int.TryParse(Console.ReadLine(), out int idAgendamento))
             {
                 Agendamento a = new Agendamento { Id = idAgendamento };
                 a.CancelarAgendamento();
@@ -323,7 +321,7 @@ namespace AluguelQuadrasSUN7
             Console.Clear();
             Console.WriteLine("=== CADASTRAR NOVA QUADRA ===");
             Quadra q = new Quadra();
-            
+
             Console.Write("Nome da Quadra: ");
             string nome;
             do
@@ -351,19 +349,19 @@ namespace AluguelQuadrasSUN7
             {
                 Endereco e = new Endereco();
                 e.QuadraId = q.Id;
-                
+
                 Console.Write("Rua: ");
                 e.Rua = Console.ReadLine() ?? string.Empty;
-                
+
                 Console.Write("Número: ");
                 if (int.TryParse(Console.ReadLine(), out int num))
                 {
                     e.Numero = num;
                 }
-                
+
                 Console.Write("Bairro: ");
                 e.Bairro = Console.ReadLine() ?? string.Empty;
-                
+
                 Console.Write("Cidade: ");
                 e.Cidade = Console.ReadLine() ?? string.Empty;
 
@@ -558,7 +556,7 @@ namespace AluguelQuadrasSUN7
 
                         string nomeUs = dictUsuarios.ContainsKey(idUs) ? dictUsuarios[idUs] : $"Usuário ID {idUs}";
                         string nomeQd = dictQuadras.ContainsKey(idQd) ? dictQuadras[idQd] : $"Quadra ID {idQd}";
-                        
+
                         string infoPg = "N/A";
                         if (dictPagamentos.ContainsKey(idPg))
                         {
@@ -585,7 +583,7 @@ namespace AluguelQuadrasSUN7
             Console.WriteLine("\n=== FATURAMENTO TOTAL ===");
             Console.WriteLine($"Faturamento Aprovado: R$ {faturamentoTotal:F2}");
             Console.WriteLine("=========================");
-            
+
             Console.ReadKey();
         }
     }
@@ -604,7 +602,7 @@ namespace AluguelQuadrasSUN7
         {
             Console.Clear();
             Console.WriteLine("=== EDITAR MEU PERFIL ===");
-            
+
             Console.Write($"Novo Nome (Atual: {_usuarioLogado.Nome}): ");
             string nome = Console.ReadLine()?.Trim() ?? string.Empty;
             if (!string.IsNullOrEmpty(nome)) _usuarioLogado.Nome = nome;

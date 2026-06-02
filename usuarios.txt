@@ -1,0 +1,2 @@
+1|Miguel|1223|m@gmail|$2a$12$qegcFRt3QszLYsADHoX9tuJPulHLMbQ02OJgugHjm47epEsFQ6kIK|Gestor|01/06/2026 22:11:45
+2|Jao|124|jo@gmail|$2a$12$oW.78mS6o67Rcd3QUEVVKei7x1jx3rCmIj72LTHEOZcmqCqNUwnd2|Cliente|01/06/2026 22:17:41
