@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using AluguelQuadrasSUN7;
@@ -9,56 +8,9 @@ namespace AluguelQuadrasSUN7
     // 2. AS TELAS DO SISTEMA (Implementando a Interface)
     // ==========================================
 
-    public class OpcaoCadastrar : IOpcaoMenu
-    {
-        public string Titulo => "Cadastrar Novo Usuário";
-
-        public void Executar()
-        {
-            Console.Clear();
-            Console.WriteLine("=== CADASTRO ===");
-
-            Usuario u = new Usuario();
-
-            // Capturando os dados básicos
-            u.Nome = ObterEntradaValida("Nome");
-            u.Cpf = ObterEntradaValida("CPF");
-            u.Email = ObterEntradaValida("Email");
-
-            // 1. Primeiro captura a senha em texto limpo do console
-            string senhaEmTextoPuro = ObterEntradaValida("Senha");
-
-            // 2. Criptografa a senha capturada e joga direto no objeto Usuario
-            u.Senha = Security.CriptografarSenha(senhaEmTextoPuro);
-
-            u.Tipo = TipoUsuario.Cliente;
-
-            // Salva o usuário com a senha já protegida
-            u.Cadastrar();
-
-            Console.WriteLine("\nUsuário cadastrado com sucesso! Pressione qualquer tecla para continuar...");
-            Console.ReadKey();
-        }
-
-
-        private string ObterEntradaValida(string nomeCampo)
-        {
-            string? entrada;
-            do
-            {
-                Console.Write($"{nomeCampo}: ");
-                entrada = Console.ReadLine()?.Trim();
-                if (string.IsNullOrWhiteSpace(entrada))
-                {
-                    Console.WriteLine($"{nomeCampo} não pode ser vazio. Tente novamente.");
-                }
-            } while (string.IsNullOrWhiteSpace(entrada));
-
-            return entrada;
-        }
-    }
-
-    public class OpcaoLogin : IOpcaoMenu
+    // ------x----- Seção: Tela de Login (OpcaoLogin) ------x-----
+    // recebe credencial e cria menu logado.
+    public class OpcaoLogin : IOpcaoMenu // tela opção login 
     {
         public string Titulo => "Fazer Login";
 
@@ -109,7 +61,9 @@ namespace AluguelQuadrasSUN7
         }
     }
 
-    public class OpcaoFazerAgendamento : IOpcaoMenu
+    // ------x----- Seção: Fazer Agendamento (OpcaoFazerAgendamento) ------x-----
+    // Guarda o usuário logado em `_usuarioLogado` e usa `Usuario.Id` pra criar agendamentos.
+    public class OpcaoFazerAgendamento : IOpcaoMenu // tela opção agendamento
     {
         private Usuario _usuarioLogado; // Guarda quem tá logado
         public string Titulo => "Fazer um Agendamento";
@@ -312,6 +266,10 @@ namespace AluguelQuadrasSUN7
         }
     }
 
+    // ------x----- Seção: Cancelamento de Agendamento (OpcaoCancelarAgendamento) ------x-----
+    // Tela simples cancela agendamentos pelo ID.
+
+
     public class OpcaoCadastrarQuadra : IOpcaoMenu
     {
         public string Titulo => "Cadastrar Nova Quadra";
@@ -371,6 +329,10 @@ namespace AluguelQuadrasSUN7
             Console.ReadKey();
         }
     }
+
+    // ------x----- Seção: Cadastro de Quadra (OpcaoCadastrarQuadra) ------x-----
+    // Formulário para inserir dados de novas quadras e endereço se quiser.
+
 
     public class OpcaoEditarQuadra : IOpcaoMenu
     {
@@ -465,6 +427,10 @@ namespace AluguelQuadrasSUN7
         }
     }
 
+    // ------x----- Seção: Edição de Quadra (OpcaoEditarQuadra) ------x-----
+    // Lista e permite editar propriedades de uma quadra existente.
+
+
     public class OpcaoVisualizarRelatorio : IOpcaoMenu
     {
         public string Titulo => "Visualizar Relatórios (Reservas e Faturamento)";
@@ -479,7 +445,7 @@ namespace AluguelQuadrasSUN7
             string arquivoUsuarios = "usuarios.txt";
             string arquivoPagamentos = "pagamentos.txt";
 
-            // Dicionários para cruzar dados e exibir relatórios ricos
+            // Dicionários para cruzar dados e exibir relatórios melhor
             var dictQuadras = new Dictionary<int, string>();
             if (File.Exists(arquivoQuadras))
             {
@@ -588,6 +554,10 @@ namespace AluguelQuadrasSUN7
         }
     }
 
+    // ------x----- Seção: Relatórios do Gestor (OpcaoVisualizarRelatorio) ------x-----
+    // puxa agendamentos, quadras, usuários e pagamentos para exibir relatórios.
+
+
     public class OpcaoEditarPerfilCliente : IOpcaoMenu
     {
         private Usuario _usuarioLogado;
@@ -624,9 +594,13 @@ namespace AluguelQuadrasSUN7
         }
     }
 
-    // ==========================================
-    // 3. O PONTO DE PARTIDA DO PROGRAMA
-    // ==========================================
+    // ------x----- Seção: Edição de Perfil do Cliente (OpcaoEditarPerfilCliente) ------x-----
+    // Permite ao usuário logado atualizar seus dados pessoais.
+
+
+
+    // ------x----- Seção: Programa Principal (Program) ------x-----
+    // Contém o `Main` que inicializa o menu principal do sistema. (Sim vai passar por refatoração pra ficar só esse bloco no program, por enquanto é só protótipo)
     class Program
     {
         static void Main(string[] args)
